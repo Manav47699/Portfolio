@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+header{
+  background-color: rgb(0, 0, 0);
+  
+}
+
+body{
+  background-color: black;
+  color: bisque; 
+}
+a{
+    text-decoration: none;
+}
+.scroll-container {
+      overflow-x: auto; /* Enables horizontal scrolling */
+      white-space: nowrap; /* Prevents line breaks in content */
+      width: 100%; /* Ensure it takes full width of the container */
+    }
+
+.scroll-container::-webkit-scrollbar {
+      display: none; /* Hides the scrollbar */
+    }
+
+.scroll-item {
+      display: inline-block; /* Keeps the items in a single line */
+      width: 200px;
+      height: 150px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      line-height: 150px;
+      border-radius: 8px;
+    }
+
+
+/*Animations begins */
+
+.welcome {
+  border-right: solid 5px rgba(255,255,255,.75);
+  white-space: nowrap;
+  overflow: hidden;    
+  font-family: 'Source Code Pro', monospace;  
+  font-size: 28px;
+  color: rgba(255,255,255,.70);
+}
+
+/* Animation */
+@keyframes glowPulse {
+      0% { box-shadow: 0 0 30px 10px white; }
+      50% { box-shadow: 0 0 60px 20px white; }
+      100% { box-shadow: 0 0 30px 10px white; }
+    }
+
+    .glow-border {
+      animation: glowPulse 2s infinite ease-in-out;
+      border-radius: 9999px;
+    }
+
+.typewriter-text {
+      overflow: hidden;
+      border-right: 4px solid #fff;
+      white-space: nowrap;
+      animation: typing 3s steps(30) 1s 1 normal both, blinkCaret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 20ch; } /* Adjust based on character count */
+    }
+
+    @keyframes blinkCaret {
+      70% { border-color: transparent; }
+    }

@@ -1,0 +1,130 @@
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body h1 {
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+}
+
+#icon p {
+    color: aliceblue;
+    display: block;
+}
+
+body #insidebody {
+    display: block;
+    background-color: rgba(149, 44, 44, 0);
+    text-align: center;
+    margin: 100px;
+    padding: 20px;
+    border-radius: 200px;
+    position: relative;
+    bottom: 50px;
+    animation: glow-footer 2s infinite alternate;
+}
+
+/* Animation keyframe for glowing border effect */
+@keyframes glow-footer {
+    0% {
+        /* Initial glow state: subtle glow */
+        box-shadow: 0 0 10px rgb(255, 247, 0), 0 0 20px rgb(208, 255, 0), 0 0 30px rgb(183, 255, 0);
+    }
+    100% {
+        /* Final glow state: stronger, more intense glow */
+        box-shadow: 0 0 20px rgb(255, 77, 0), 0 0 40px rgb(255, 60, 0), 0 0 60px rgb(255, 0, 0);
+    }
+}
+
+/* Social Media Container */
+.social-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Individual Social Box */
+.social-box {
+    background-color: rgba(30, 30, 30, 0.7);
+    border-radius: 20px;
+    padding: 30px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+}
+
+.social-box h2 {
+    color: white;
+    margin: 15px 0;
+}
+
+.social-box button {
+    font-size: 24px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.social-box button:hover {
+    background-color: gray;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    body h1 {
+        font-size: 80px;
+    }
+    
+    body #insidebody {
+        margin: 60px;
+    }
+}
+
+@media (max-width: 900px) {
+    body h1 {
+        font-size: 60px;
+    }
+    
+    body #insidebody {
+        margin: 40px;
+        border-radius: 100px;
+    }
+    
+    .social-box {
+        width: 180px;
+    }
+}
+
+@media (max-width: 600px) {
+    body h1 {
+        font-size: 40px;
+    }
+    
+    body #insidebody {
+        margin: 20px;
+        border-radius: 50px;
+    }
+    
+    .social-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .social-box {
+        width: 80%;
+        max-width: 300px;
+    }
+}
