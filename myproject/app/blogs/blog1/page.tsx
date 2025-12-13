@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { BookOpen, Calendar, ArrowLeft } from 'lucide-react';
+import { BookOpen, Calendar, ArrowLeft, ChevronLeft, ChevronRight  } from 'lucide-react';
 
 export default function BlogPost() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -328,11 +328,20 @@ npm run build`,
           </article>
 
           {/* Navigation Footer */}
-          <div className="mt-12 flex justify-between items-center">
-            <a href="/blogs">
-              <button className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-medium">
-                <ArrowLeft size={20} />
-                <span>More Blogs</span>
+          <div className="mt-12 flex flex-col sm:flex-row justify-between items-center gap-4">
+            {/* Previous Blog Button */}
+            <a href="#" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-medium group">
+                <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform duration-300" />
+                <span>Previous Blog</span>
+              </button>
+            </a>
+
+            {/* Next Blog Button */}
+            <a href="#" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto flex items-center gap-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-medium group">
+                <span>Next Blog</span>
+                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </a>
           </div>

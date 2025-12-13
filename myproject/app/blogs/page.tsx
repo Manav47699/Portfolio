@@ -26,7 +26,7 @@ export default function Blogs() {
       blogNumber: 'BLOG #01',
       title: 'Nextjs Website (static) deployment with C-Panel',
       description: 'Here is how you can deploy a static nextjs site with any C-Panel provider.',
-      date: '2024-12-01',
+      date: '2025-11-20',
       link: '/blogs/blog1'
     },
     {
@@ -34,8 +34,16 @@ export default function Blogs() {
       blogNumber: 'BLOG #02',
       title: 'How to run a local chatbot with RAG',
       description: 'Run a local chatbot in your terminal with RAG using a personal .csv file',
-      date: '2024-11-15',
+      date: '2025-11-26',
       link: 'blogs/blog2'
+    },
+    {
+      id: 3,
+      blogNumber: 'BLOG #03',
+      title: 'Using openai whisper for stt (speech to text) processing',
+      description: 'Using whisper ai for stt along with a nextjs frontend',
+      date: '2025-11-27',
+      link: 'blogs/blog3'
     },
     
   ];
