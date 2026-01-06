@@ -316,7 +316,8 @@ npm run build`,
                         <h3 className="text-xl font-semibold text-gray-900">Success!</h3>
                       </div>
                       <p className="text-gray-700 text-lg leading-relaxed">
-                        {section.text}
+                        {'text' in section && section.text}
+
                       </p>
                     </div>
                   );
