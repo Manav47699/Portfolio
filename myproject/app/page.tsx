@@ -16,7 +16,7 @@ export default function Home() {
     setIsSidebarOpen(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage('');
@@ -61,6 +61,53 @@ export default function Home() {
     { name: 'Arduino', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg' },
     { name: 'ESP32', logo: 'https://www.researchgate.net/publication/342521677/figure/fig2/AS:965305153105920@1607158091249/Pinout-diagram-of-ESP32.png' },
     { name: 'Raspberry Pi', logo: 'https://download.logo.wine/logo/Raspberry_Pi/Raspberry_Pi-Logo.wine.png' }
+  ];
+
+  const downloadableProjects = [
+    { 
+      video: '/videos/ai detector video (online-video-cutter.com).mp4', 
+      title: 'Agrinova App', 
+      contain: false,
+      repo: 'https://github.com/Manav47699/AGRINOVA-app.git'
+    },
+    { 
+      video: '/videos/simplecalculator video.mp4', 
+      title: 'Desktop Calculator', 
+      contain: true,
+      repo: 'https://github.com/Manav47699/Calculator-app.git'
+    },
+  ];
+
+  const webProjects = [
+    { 
+      video: '/videos/makalu_jadibuti.mp4', 
+      title: 'Makalu Jadibuti Website',
+      repo: 'https://github.com/Manav47699/Makalu-Jadibuti-Website.git'
+    },
+    { 
+      video: '/videos/new website video.mp4', 
+      title: 'Portfolio',
+      repo: 'https://github.com/Manav47699/Portfolio.git'
+    },
+    { 
+      video: '/videos/old website video.mp4', 
+      title: 'First Website',
+      repo: 'https://github.com/Manav47699/Old_Portfolio.git'
+    },
+    
+  ];
+
+  const hardwareProjects = [
+    { 
+      video: '/videos/ai_garbage_classifier.mp4', 
+      title: 'AI Garbage Classifier',
+      repo: 'https://github.com/Manav47699/ROBOTICS-ai-garbage-classifier.git'
+    },
+    { 
+      video: '/videos/pid video.mp4', 
+      title: 'PID Line Follower Robot',
+      repo: 'https://github.com/navidadelpour/line-follower-robot.git'
+    }
   ];
 
   return (
@@ -194,76 +241,106 @@ export default function Home() {
 
         <div className="py-16"></div>
 
-        <div className="bg-amber-50 text-gray-900 py-10">
+        <div className="bg-amber-50 text-gray-900 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-center mb-8">PROJECTS</h1>
-            <div className="flex justify-center mb-8">
-              <a href="/projects"><button className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-amber-600 hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 text-lg font-medium">View in detail</button></a>
+            <h1 className="text-5xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">PROJECTS</h1>
+            <div className="flex justify-center mb-12">
+              <a href="/projects">
+                <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-amber-500 hover:to-amber-600 hover:shadow-2xl hover:shadow-amber-400/50 transition-all duration-300 text-lg font-semibold transform hover:scale-105">
+                  View All Projects
+                </button>
+              </a>
             </div>
 
-            <section className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-left pl-4">Downloadable applications</h2>
-              <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide">
-                {[
-                  { video: '/videos/simplecalculator video.mp4', title: 'Desktop Calculator', contain: true },
-                  { video: '/videos/ai detector video (online-video-cutter.com).mp4', title: 'Agrinova App', contain: false }
-                ].map((project, i) => (
-                  <div key={i} className="min-w-[320px] max-w-[320px] bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-5 border border-green-200 flex-shrink-0">
-                    <div className="relative w-full aspect-video overflow-hidden rounded-lg cursor-pointer bg-white shadow-sm">
-                      <video src={project.video} className={`w-full h-full ${project.contain ? 'object-contain' : 'object-cover'}`} muted playsInline onMouseOver={(e) => e.currentTarget.play()} onMouseOut={(e) => e.currentTarget.pause()} />
+            <section className="mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-10 text-left pl-4 border-l-4 border-green-500">Downloadable Applications</h2>
+              <div className="flex overflow-x-auto space-x-8 pb-6 scrollbar-hide">
+                {downloadableProjects.map((project, i) => (
+                  <div key={i} className="min-w-[380px] max-w-[380px] bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 p-6 border-2 border-green-100 flex-shrink-0 transform hover:-translate-y-2 hover:border-green-300">
+                    <div className="relative w-full aspect-video overflow-hidden rounded-xl cursor-pointer bg-gradient-to-br from-green-50 to-green-100 shadow-inner ring-2 ring-green-200">
+                      <video 
+                        src={project.video} 
+                        className={`w-full h-full ${project.contain ? 'object-contain' : 'object-cover'}`} 
+                        muted 
+                        playsInline 
+                        onMouseOver={(e) => e.currentTarget.play()} 
+                        onMouseOut={(e) => e.currentTarget.pause()} 
+                      />
                     </div>
-                    <h2 className="mt-4 text-lg font-bold text-gray-900 tracking-wide">{project.title}</h2>
-                    <button className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors duration-300 shadow-sm">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
-                      GitHub Repo
-                    </button>
+                    <h2 className="mt-5 text-xl font-bold text-gray-900 tracking-wide">{project.title}</h2>
+                    
+                    <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                      <button className="mt-5 w-full flex items-center justify-center gap-3 px-5 py-3.5 bg-gradient-to-r from-green-600 to-green-700 text-white text-base font-semibold rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                        </svg>
+                        View on GitHub
+                      </button>
+                    </a>
                   </div>
                 ))}
               </div>
             </section>
 
-            <hr className="border-red-500 shadow-[0_10px_5px_rgba(192,192,192,0.7)] my-12" />
+            <hr className="border-t-4 border-red-500 shadow-[0_4px_15px_rgba(239,68,68,0.3)] my-16 rounded-full" />
 
-            <section className="mb-12">
-              <h2 className="text-3xl font-bold text-black mb-8 text-left pl-4">Web Projects</h2>
-              <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide">
-                {[
-                  { video: '/videos/makalu_jadibuti.mp4', title: 'Makalu Jadibuti Website' },
-                  { video: '/videos/old website video.mp4', title: 'First Website' },
-                  { video: '/videos/new website video.mp4', title: 'Portfolio' }
-                ].map((project, i) => (
-                  <div key={i} className="min-w-[320px] max-w-[320px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-5 border border-blue-200 flex-shrink-0">
-                    <div className="relative w-full aspect-video overflow-hidden rounded-lg cursor-pointer bg-white shadow-sm">
-                      <video src={project.video} className="w-full h-full object-cover" muted playsInline onMouseOver={(e) => e.currentTarget.play()} onMouseOut={(e) => e.currentTarget.pause()} />
+            <section className="mb-16">
+              <h2 className="text-4xl font-bold text-black mb-10 text-left pl-4 border-l-4 border-blue-500">Web Projects</h2>
+              <div className="flex overflow-x-auto space-x-8 pb-6 scrollbar-hide">
+                {webProjects.map((project, i) => (
+                  <div key={i} className="min-w-[380px] max-w-[380px] bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 p-6 border-2 border-blue-100 flex-shrink-0 transform hover:-translate-y-2 hover:border-blue-300">
+                    <div className="relative w-full aspect-video overflow-hidden rounded-xl cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 shadow-inner ring-2 ring-blue-200">
+                      <video 
+                        src={project.video} 
+                        className="w-full h-full object-cover" 
+                        muted 
+                        playsInline 
+                        onMouseOver={(e) => e.currentTarget.play()} 
+                        onMouseOut={(e) => e.currentTarget.pause()} 
+                      />
                     </div>
-                    <h2 className="mt-4 text-lg font-bold text-gray-900 tracking-wide">{project.title}</h2>
-                    <button className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-sm">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
-                      GitHub Repo
-                    </button>
+                    <h2 className="mt-5 text-xl font-bold text-gray-900 tracking-wide">{project.title}</h2>
+                    
+                    <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                      <button className="mt-5 w-full flex items-center justify-center gap-3 px-5 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-base font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                        </svg>
+                        View on GitHub
+                      </button>
+                    </a>
                   </div>
                 ))}
               </div>
             </section>
 
-            <hr className="border-red-500 shadow-[0_10px_5px_rgba(192,192,192,0.7)] my-12" />
+            <hr className="border-t-4 border-red-500 shadow-[0_4px_15px_rgba(239,68,68,0.3)] my-16 rounded-full" />
 
             <section>
-              <h2 className="text-3xl font-bold text-black mb-8 text-left pl-4">Hardware/Robotics Projects</h2>
-              <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide">
-                {[
-                  { video: '/videos/ai_garbage_classifier.mp4', title: 'AI Garbage Classifier' },
-                  { video: '/videos/pid video.mp4', title: 'PID Line Follower Robot' }
-                ].map((project, i) => (
-                  <div key={i} className="min-w-[320px] max-w-[320px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-5 border border-gray-200 flex-shrink-0">
-                    <div className="relative w-full aspect-video overflow-hidden rounded-lg cursor-pointer bg-white shadow-sm">
-                      <video src={project.video} className="w-full h-full object-cover" muted playsInline onMouseOver={(e) => e.currentTarget.play()} onMouseOut={(e) => e.currentTarget.pause()} />
+              <h2 className="text-4xl font-bold text-black mb-10 text-left pl-4 border-l-4 border-gray-700">Hardware & Robotics Projects</h2>
+              <div className="flex overflow-x-auto space-x-8 pb-6 scrollbar-hide">
+                {hardwareProjects.map((project, i) => (
+                  <div key={i} className="min-w-[380px] max-w-[380px] bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 p-6 border-2 border-gray-100 flex-shrink-0 transform hover:-translate-y-2 hover:border-gray-300">
+                    <div className="relative w-full aspect-video overflow-hidden rounded-xl cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 shadow-inner ring-2 ring-gray-200">
+                      <video 
+                        src={project.video} 
+                        className="w-full h-full object-cover" 
+                        muted 
+                        playsInline 
+                        onMouseOver={(e) => e.currentTarget.play()} 
+                        onMouseOut={(e) => e.currentTarget.pause()} 
+                      />
                     </div>
-                    <h2 className="mt-4 text-lg font-bold text-gray-900 tracking-wide">{project.title}</h2>
-                    <button className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-700 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors duration-300 shadow-sm">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
-                      GitHub Repo
-                    </button>
+                    <h2 className="mt-5 text-xl font-bold text-gray-900 tracking-wide">{project.title}</h2>
+                    
+                    <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                      <button className="mt-5 w-full flex items-center justify-center gap-3 px-5 py-3.5 bg-gradient-to-r from-gray-700 to-gray-800 text-white text-base font-semibold rounded-xl hover:from-gray-800 hover:to-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                        </svg>
+                        View on GitHub
+                      </button>
+                    </a>
                   </div>
                 ))}
               </div>

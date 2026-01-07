@@ -302,24 +302,7 @@ ollama pull mxbai-embed-large    # required in vector.py`,
                   );
                 }
 
-                if (section.type === 'conclusion') {
-                  return (
-                    <div key={index} className="mt-12 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8 shadow-lg">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
-                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-900">Success!</h3>
-                      </div>
-                      <p className="text-gray-700 text-lg leading-relaxed">
-                        {'text' in section && section.text}
-
-                      </p>
-                    </div>
-                  );
-                }
+                
 
                 return null;
               })}
