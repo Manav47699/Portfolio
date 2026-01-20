@@ -36,7 +36,7 @@ class CohereEmbeddings(Embeddings):
 
     def embed_query(self, text):
         response = self.client.embed(
-            model="embed-v4.0",
+            model="medium",
             texts=[text],
             input_type="search_query"
         )

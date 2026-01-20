@@ -1,71 +1,133 @@
+# chat.py
 import os
-from langchain_chroma import Chroma
-from langchain_community.embeddings import CohereEmbeddings
+import cohere
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from huggingface_hub import InferenceClient
+from langchain_chroma import Chroma
+from langchain_core.embeddings import Embeddings
 
-OWNER_EMAIL = os.getenv("OWNER_EMAIL")
+# -----------------------------
+# Load environment variables
+# -----------------------------
+load_dotenv()
 
-embeddings = CohereEmbeddings()
-db = Chroma(
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+HF_API_KEY = os.getenv("HF_API_KEY")
+CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "acharyamanav7@gmail.com")
+
+if not COHERE_API_KEY or not HF_API_KEY:
+    raise ValueError("Missing API keys in .env file")
+
+# -----------------------------
+# Cohere Embeddings Wrapper
+# -----------------------------
+class CohereEmbeddings(Embeddings):
+    def __init__(self, api_key: str):
+        self.client = cohere.Client(api_key)
+
+    def embed_documents(self, texts):
+        response = self.client.embed(
+            model="embed-v4.0",
+            texts=texts,
+            input_type="search_document"
+        )
+        return response.embeddings
+
+    def embed_query(self, text):
+        response = self.client.embed(
+            model="embed-v4.0",
+            texts=[text],
+            input_type="search_query"
+        )
+        return response.embeddings[0]
+
+embeddings = CohereEmbeddings(COHERE_API_KEY)
+
+# -----------------------------
+# Load ChromaDB
+# -----------------------------
+vectorstore = Chroma(
     persist_directory="chroma_db",
     embedding_function=embeddings
 )
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
+# -----------------------------
+# Hugging Face LLM
+# -----------------------------
 llm = InferenceClient(
-    model="mistralai/Mistral-7B-Instruct-v0.2",
-    token=os.getenv("HUGGINGFACEHUB_API_TOKEN")
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    token=HF_API_KEY
 )
 
+# -----------------------------
+# FastAPI app
+# -----------------------------
+app = FastAPI()
 
-def is_personal_question(query: str) -> bool:
-    keywords = [
-        "you", "your", "owner", "resume", "portfolio",
-        "email", "phone", "education", "experience"
+# Allow CORS for Next.js frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# -----------------------------
+# Request model
+# -----------------------------
+class ChatRequest(BaseModel):
+    question: str
+
+# -----------------------------
+# Chat endpoint
+# -----------------------------
+@app.post("/chat")
+def chat(req: ChatRequest):
+    user_query = req.question
+
+    # 1️⃣ Retrieve context from ChromaDB
+    try:
+        docs = retriever.invoke(user_query)
+    except Exception as e:
+        print("Error retrieving from Chroma:", e)
+        docs = []
+
+    context = "\n\n".join(doc.page_content for doc in docs) if docs else ""
+
+    # 2️⃣ Prepare messages
+    system_message = (
+        "You are a friendly portfolio assistant chatbot. "
+        "Answer general questions normally. "
+        "If the user asks about Manav (personal info, projects, hobbies, contacts), "
+        "use ONLY the provided context. "
+        f"If the context does not contain the answer, say: 'I don't have that information. You can contact Manav at {CONTACT_EMAIL}.'"
+    )
+    user_message = f"Context:\n{context}\n\nUser question:\n{user_query}"
+
+    messages = [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message}
     ]
-    return any(k in query.lower() for k in keywords)
 
-
-def generate_general_answer(question: str) -> str:
-    prompt = f"Answer the following question clearly:\n\n{question}"
-    response = llm.text_generation(prompt, max_new_tokens=300)
-    return response.strip()
-
-
-def generate_rag_answer(question: str) -> str:
-    docs = db.similarity_search(question, k=3)
-
-    if not docs:
-        return (
-            "I don’t have information about this.\n\n"
-            f"You can directly contact my owner at {OWNER_EMAIL}"
+    # 3️⃣ Generate LLM response
+    try:
+        response = llm.chat_completion(
+            messages=messages,
+            max_tokens=300,
+            temperature=0.5
         )
+        answer = response.choices[0].message["content"].strip()
+    except Exception as e:
+        print("Error generating answer:", e)
+        answer = "Sorry, I cannot generate an answer right now."
 
-    context = "\n\n".join(doc.page_content for doc in docs)
+    return {"answer": answer}
 
-    prompt = f"""
-You are an assistant answering questions ONLY from the context below.
-If the answer is not present, say you do not know.
-
-Context:
-{context}
-
-Question:
-{question}
-"""
-
-    response = llm.text_generation(prompt, max_new_tokens=300)
-
-    if "i don't know" in response.lower():
-        return (
-            "I don’t have information about this.\n\n"
-            f"You can directly contact my owner at {OWNER_EMAIL}"
-        )
-
-    return response.strip()
-
-
-def chat_router(question: str) -> str:
-    if is_personal_question(question):
-        return generate_rag_answer(question)
-    else:
-        return generate_general_answer(question)
+# -----------------------------
+# Run with: uvicorn chat:app --reload --port 8000
+# -----------------------------

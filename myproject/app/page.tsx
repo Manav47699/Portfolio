@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+import Chatbot from "../components/Chatbot"; // Correct relative path
+
+
+
 export default function Home() {
   const [formData, setFormData] = useState({
     feedback: '',
@@ -383,6 +387,7 @@ export default function Home() {
           <li className="text-center"><a href="mailto:acharyamanav7@gmail.com" className="hover:text-amber-300">Gmail</a></li>
         </ul>
       </footer>
+      <Chatbot />
 
       <style jsx>{`
         @keyframes glow-pulse {
