@@ -1,0 +1,13 @@
+# form backend
+fastapi
+uvicorn
+python-dotenv
+huggingface-hub
+cohere
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-chroma
+chromadb
+pypdf
+pandas
