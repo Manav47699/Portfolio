@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react';
 import { Search, BookOpen } from 'lucide-react';
+import Chatbot from "../../components/Chatbot";
+
 
 export default function Blogs() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -336,6 +338,7 @@ export default function Blogs() {
           </div>
         </div>
       </main>
+      <Chatbot/>
     </>
   );
 }

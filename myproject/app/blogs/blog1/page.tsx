@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { BookOpen, Calendar, ArrowLeft, ChevronLeft, ChevronRight  } from 'lucide-react';
+import Chatbot from "../../../components/Chatbot";
+
+
 
 export default function BlogPost() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -347,6 +350,7 @@ npm run build`,
             </a>
           </div>
         </div>
+        <Chatbot/>
       </main>
     </>
   );

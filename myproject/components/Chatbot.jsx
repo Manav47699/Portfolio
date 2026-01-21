@@ -4,13 +4,15 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Chatbot() {
   const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content: "Hello! I’m Lucky, Manav’s portfolio assistant. I can provide quick insights into his background, technical skills, and hobbies."
+    }
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [recording, setRecording] = useState(false);
-
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
+  
   const messagesEndRef = useRef(null);
 
   // Auto scroll to bottom when messages update
@@ -48,48 +50,7 @@ export default function Chatbot() {
     }
   }
 
-  // -----------------------------
-  // START VOICE RECORDING
-  // -----------------------------
-  const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorderRef.current = new MediaRecorder(stream);
-
-    audioChunksRef.current = [];
-    mediaRecorderRef.current.ondataavailable = (e) => audioChunksRef.current.push(e.data);
-
-    mediaRecorderRef.current.start();
-    setRecording(true);
-  };
-
-  // -----------------------------
-  // STOP RECORDING → STT → SEND
-  // -----------------------------
-  const stopRecording = () => {
-    return new Promise((resolve) => {
-      mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
-        const formData = new FormData();
-        formData.append("file", audioBlob, "recording.wav");
-
-        try {
-          const res = await fetch("http://127.0.0.1:8000/stt", {
-            method: "POST",
-            body: formData,
-          });
-          const data = await res.json();
-          await sendMessage(data.text);
-        } catch (err) {
-          console.error(err);
-          setMessages((prev) => [...prev, { role: "assistant", content: "STT failed." }]);
-        }
-        resolve();
-      };
-
-      mediaRecorderRef.current.stop();
-      setRecording(false);
-    });
-  };
+  
 
   // -----------------------------
   // UI
@@ -97,39 +58,40 @@ export default function Chatbot() {
   return (
     <div className="font-sans">
       {/* Floating AI Button */}
-      {!chatOpen && (
-        <button
-          className="fixed bottom-5 right-5 w-16 h-16 rounded-full shadow-2xl flex items-center justify-center animate-bounce-slow"
-          style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
-          onClick={() => setChatOpen(true)}
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/4712/4712098.png"
-            alt="Catalyst"
-            className="w-10 h-10"
-          />
-        </button>
-      )}
+{!chatOpen && (
+  <button
+    className="fixed bottom-5 right-5 w-16 h-16 rounded-full overflow-hidden shadow-2xl animate-bounce-slow z-50"
+    style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+    onClick={() => setChatOpen(true)}
+  >
+    <img
+      src="/images/mascot.jpeg"
+      alt="Chatbot"
+      className="w-full h-full object-cover"
+    />
+  </button>
+)}
+
 
       {/* Chat Modal */}
       {chatOpen && (
-        <div className="fixed bottom-20 right-5 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl flex flex-col border border-gray-200 overflow-hidden animate-scale-up">
+        <div className="fixed inset-0 md:bottom-20 md:right-5 md:inset-auto md:w-96 md:h-auto w-full h-full bg-white md:rounded-3xl shadow-2xl flex flex-col border border-gray-200 overflow-hidden animate-zoom z-50">
           {/* Header */}
           <div
-            className="px-4 py-3 font-bold text-lg flex justify-between items-center rounded-t-3xl shadow-inner"
+            className="px-4 py-3 font-bold text-lg flex justify-between items-center md:rounded-t-3xl shadow-inner"
             style={{ background: "linear-gradient(90deg, #4F46E5, #6366F1)", color: "#fff" }}
           >
-            <span>Catalyst AI</span>
+            <span>Lucky, the assistant bot</span>
             <button
-              className="text-white font-bold text-lg hover:text-gray-200 transition"
+              className="text-white font-bold text-xl hover:text-gray-200 transition w-8 h-8 flex items-center justify-center"
               onClick={() => setChatOpen(false)}
             >
-              ×
+              ✕
             </button>
           </div>
 
           {/* Messages */}
-          <div className="p-4 h-72 overflow-y-auto flex flex-col space-y-2 bg-gray-50 text-black">
+          <div className="p-4 flex-1 md:h-72 overflow-y-auto flex flex-col space-y-2 bg-gray-50 text-black">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -151,7 +113,7 @@ export default function Chatbot() {
           </div>
 
           {/* Input & Voice */}
-          <div className="flex p-2 border-t border-gray-200 bg-gray-50 rounded-b-3xl gap-1 text-black">
+          <div className="flex p-2 border-t border-gray-200 bg-gray-50 md:rounded-b-3xl gap-1 text-black">
             <input
               type="text"
               className="flex-1 border border-gray-300 rounded-l-2xl px-3 py-2 focus:outline-none focus:ring focus:ring-purple-300 text-black"
@@ -170,32 +132,41 @@ export default function Chatbot() {
               Send
             </button>
 
-            {!recording ? (
-              <button
-                className="px-3 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 ml-1"
-                onClick={startRecording}
-              >
-                🎤
-              </button>
-            ) : (
-              <button
-                className="px-3 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 ml-1"
-                onClick={stopRecording}
-              >
-                ⏹
-              </button>
-            )}
+            
           </div>
         </div>
       )}
 
       {/* Animations */}
       <style jsx>{`
-        @keyframes scale-up { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .animate-scale-up { animation: scale-up 0.3s ease-out; }
+        @keyframes zoom {
+          0% {
+            transform: scale(0.8);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .animate-zoom {
+          animation: zoom 0.4s ease-out;
+        }
 
-        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        .animate-bounce-slow { animation: bounce-slow 2s infinite; }
+        @keyframes bounce-slow {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-6px);
+          }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 2s infinite;
+        }
       `}</style>
     </div>
   );

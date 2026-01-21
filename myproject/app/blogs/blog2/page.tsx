@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { BookOpen, Calendar, ArrowLeft, Github, ChevronLeft, ChevronRight } from 'lucide-react';
+import Chatbot from "../../../components/Chatbot";
+
 
 export default function BlogPost() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -328,6 +330,7 @@ ollama pull mxbai-embed-large    # required in vector.py`,
             </a>
           </div>
         </div>
+        <Chatbot/>
       </main>
     </>
   );

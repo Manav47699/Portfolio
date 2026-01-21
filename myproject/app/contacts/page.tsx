@@ -2,6 +2,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { Home } from 'lucide-react';
+import Chatbot from "../../components/Chatbot";
+
 
 export default function MySocials() {
   const socials = [
@@ -110,6 +112,8 @@ export default function MySocials() {
           ))}
         </div>
       </div>
+      <Chatbot/>
     </div>
+    
   );
 }

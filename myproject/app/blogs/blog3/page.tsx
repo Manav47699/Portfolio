@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { BookOpen, Calendar, ArrowLeft, Github, ChevronLeft, ChevronRight } from 'lucide-react';
+import Chatbot from "../../../components/Chatbot";
+
 
 export default function BlogPost() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -340,6 +342,7 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu      # to dow
             </a>
           </div>
         </div>
+        <Chatbot/>
       </main>
     </>
   );

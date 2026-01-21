@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import Chatbot from "../../components/Chatbot";
+
 type ProjectTag = 'robotics' | 'webapp' | 'application';
 type Project = {
   id: number;
@@ -461,6 +463,7 @@ export default function Projects() {
             )}
           </div>
         </div>
+        <Chatbot/>
       </main>
     </>
   );
