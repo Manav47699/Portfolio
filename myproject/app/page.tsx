@@ -84,6 +84,11 @@ export default function Home() {
 
   const webProjects = [
     { 
+      video: '/videos/Catalyst.mp4', 
+      title: 'Catalyst',
+      repo: 'https://github.com/Manav47699/Catalyst.git'
+    },
+    { 
       video: '/videos/makalu_jadibuti.mp4', 
       title: 'Makalu Jadibuti Website',
       repo: 'https://github.com/Manav47699/Makalu-Jadibuti-Website.git'

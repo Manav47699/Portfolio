@@ -97,7 +97,16 @@ export default function Projects() {
       date: '2025-11-20',
       githubLink: 'https://github.com/Manav47699/Makalu-Jadibuti-Website.git',
       tag: 'webapp'
-    }
+    },
+    {
+      id: 8,
+      title: 'Catalyst',
+      description: 'Catalyst is a platform designed for young entrepreneurs to grow their ventures, improve their networking with like-minded individuals, and access personalized mentorship—both human-driven and AI-powered. ',
+      video: '/videos/Catalyst.mp4',
+      date: '2026-1-16',
+      githubLink: 'https://github.com/Manav47699/Catalyst.git',
+      tag: 'webapp'
+    },
   ];
 
   // Filter and sort projects
