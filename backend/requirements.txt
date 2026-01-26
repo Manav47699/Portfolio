@@ -1,4 +1,4 @@
-# form backend
+# for backend
 fastapi
 uvicorn
 python-dotenv
@@ -11,3 +11,4 @@ langchain-chroma
 chromadb
 pypdf
 pandas
+
