@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+.git/
+.gitignore
+.env
+node_modules/
+.next/
+chroma_db/
+README.md
