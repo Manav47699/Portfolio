@@ -73,7 +73,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # for local dev
-        "https://manavvercel.vercel.app"  # your Vercel frontend
+        "https://www.manavacharya.com.np/"  # your Vercel frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],
