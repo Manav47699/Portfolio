@@ -1,119 +1,75 @@
-"use client";
-import React from 'react';
-import Image from 'next/image';
-import { Home } from 'lucide-react';
-import Chatbot from "../../components/Chatbot";
+import type { Metadata } from "next";
+import Image from "next/image";
+import { ArrowUpRight, FileDown, Mail } from "lucide-react";
+import { site } from "@/content/site";
+import CopyEmail from "./CopyEmail";
 
+export const metadata: Metadata = {
+  title: "Contacts",
+  description: "Get in touch with Manav Acharya: email, GitHub, LinkedIn and more.",
+  alternates: { canonical: "/contacts" },
+};
 
-export default function MySocials() {
-  const socials = [
-    {
-      name: 'Facebook',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_de_Facebook.png',
-      url: 'https://www.facebook.com/manav.acharya.503/',
-      buttonText: 'Connect'
-    },
-    {
-      name: 'Instagram',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png',
-      url: 'https://www.instagram.com/manav.ar/',
-      buttonText: 'Connect'
-    },
-    {
-      name: 'LinkedIn',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png',
-      url: 'https://www.linkedin.com/in/manav-acharya-a252272b8/',
-      buttonText: 'Connect'
-    },
-    {
-      name: 'GitHub',
-      icon: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
-      url: 'https://github.com/Manav47699',
-      buttonText: 'Connect'
-    },
-    {
-      name: 'Gmail',
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png',
-      url: 'mailto:acharyamanav7@gmail.com',
-      buttonText: 'Mail'
-    }
-  ];
-
+export default function ContactsPage() {
   return (
-    <div className="min-h-screen bg-black font-sans">
-      {/* Home Icon */}
-      <div className="p-6">
-        <a href="/" className="inline-block">
-          <Home className="w-12 h-12 text-yellow-400 hover:scale-110 transition-transform" />
-        </a>
-      </div>
+    <main className="grain relative min-h-screen overflow-hidden bg-black px-4 pb-24 pt-32 sm:px-8">
+      <div aria-hidden className="absolute left-1/2 top-1/3 h-[60vh] w-[80vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,120,0,0.12),transparent)]" />
 
-      {/* Main Content */}
-      <div className="mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32 mt-12 mb-20 p-6 sm:p-8 md:p-12 lg:p-16 text-center relative bottom-12 rounded-[50px] sm:rounded-[100px] md:rounded-[150px] lg:rounded-[200px] animate-glow">
-        <style jsx>{`
-          @keyframes glow {
-            0% {
-              box-shadow: 0 0 10px rgb(255, 247, 0), 
-                          0 0 20px rgb(208, 255, 0), 
-                          0 0 30px rgb(183, 255, 0);
-            }
-            100% {
-              box-shadow: 0 0 20px rgb(255, 77, 0), 
-                          0 0 40px rgb(255, 60, 0), 
-                          0 0 60px rgb(255, 0, 0);
-            }
-          }
-          .animate-glow {
-            animation: glow 2s infinite alternate;
-          }
-        `}</style>
+      <div className="relative mx-auto max-w-5xl">
+        {/* the glowing card from the original contacts page */}
+        <div className="contacts-glow relative rounded-[40px] border border-white/10 bg-zinc-950/80 px-5 py-12 text-center backdrop-blur sm:rounded-[80px] sm:px-12 sm:py-16 lg:rounded-[120px]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-zinc-500">say hello</p>
+          <h1 className="mt-3 font-display text-5xl font-extrabold tracking-tight text-blue-100 sm:text-7xl lg:text-8xl">MY SOCIALS</h1>
+          <hr className="mx-auto mt-8 max-w-xl border-blue-100/20" />
 
-        {/* Title */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-blue-100 font-bold mb-4">
-          MY SOCIALS
-        </h1>
-        <hr className="border-blue-100 mb-12" />
-
-        {/* Social Cards Grid */}
-        <div className="flex flex-wrap justify-center gap-6 sm:gap-8 mt-10">
-          {socials.map((social, index) => (
-            <div
-              key={index}
-              className="bg-gray-900/70 rounded-3xl p-8 w-full sm:w-64 md:w-56 lg:w-64 text-center transition-all duration-300 hover:-translate-y-3 hover:shadow-[0_0_25px_rgba(255,255,255,0.3)]"
-            >
-              {/* Icon */}
-              <div className="mb-4 flex justify-center">
-                <Image
-                  src={social.icon}
-                  alt={social.name}
-                  width={80}
-                  height={80}
-                  className="animate-bounce rounded-xl"
-                  unoptimized
-                />
+          <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-2">
+            <div className="group rounded-3xl border border-amber-300/30 bg-amber-300/[0.06] p-6 text-left transition hover:border-amber-300/60 sm:col-span-2">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-amber-300 text-black">
+                  <Mail className="size-7" />
+                </span>
+                <div className="flex-1">
+                  <div className="text-sm text-zinc-400">The fastest way to reach me</div>
+                  <div className="mt-0.5 break-all font-display text-xl font-semibold text-white sm:text-2xl">{site.email}</div>
+                </div>
+                <div className="flex gap-2">
+                  <CopyEmail email={site.email} />
+                  <a href={`mailto:${site.email}`} className="rounded-xl bg-amber-300 px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-200">
+                    Mail
+                  </a>
+                </div>
               </div>
-
-              {/* Platform Name */}
-              <h2 className="text-white text-xl font-semibold mb-6">
-                {social.name}
-              </h2>
-
-              {/* Button */}
-              <a
-                href={social.url}
-                target={social.name !== 'Gmail' ? '_blank' : undefined}
-                rel="noreferrer"
-              >
-                <button className="text-xl px-6 py-3 rounded-xl bg-gray-800 text-white border-none cursor-pointer transition-all duration-300 hover:bg-gray-600 active:scale-95">
-                  {social.buttonText}
-                </button>
-              </a>
             </div>
-          ))}
+
+            {site.socials.map((s) => (
+              <a
+                key={s.name}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-3xl border border-white/10 bg-zinc-900/70 p-5 text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.12)]"
+              >
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/5 transition group-hover:scale-110 group-hover:bg-white/10">
+                  <Image src={s.icon} alt="" width={30} height={30} className="size-[30px]" />
+                </span>
+                <span className="flex-1">
+                  <span className="block text-lg font-semibold text-white">{s.name}</span>
+                  <span className="block font-mono text-[13px] text-zinc-500">{s.handle}</span>
+                </span>
+                <ArrowUpRight className="size-5 text-zinc-500 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+              </a>
+            ))}
+
+            <a
+              href={site.resume}
+              target="_blank"
+              className="group flex items-center justify-center gap-2 rounded-3xl border border-dashed border-white/20 p-5 text-zinc-300 transition hover:border-lime/60 hover:text-lime sm:col-span-2"
+            >
+              <FileDown className="size-5" /> Download my résumé (PDF)
+            </a>
+          </div>
         </div>
       </div>
-      <Chatbot/>
-    </div>
-    
+    </main>
   );
 }

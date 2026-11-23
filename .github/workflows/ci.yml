@@ -1,0 +1,43 @@
+name: CI
+
+# Every push to main is checked here; Vercel deploys main automatically.
+# If the knowledge base or the build is broken, this fails and Vercel's
+# build fails too, so the previous version stays live.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: myproject
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: myproject/package-lock.json
+
+      - run: npm ci
+
+      - name: Validate Lucky's knowledge base
+        run: npm run knowledge
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
