@@ -1,7 +1,7 @@
 import { allChunks } from "@/lib/chat/knowledge";
 import { buildContext } from "@/lib/chat/retrieval";
 import { configuredProviders, streamCompletion, type ChatMessage } from "@/lib/chat/llm";
-import { rateLimit, clientIp } from "@/lib/rate-limit";
+import { rateLimit, clientIp, badBody } from "@/lib/rate-limit";
 import { site } from "@/content/site";
 
 export const runtime = "nodejs";
@@ -42,6 +42,9 @@ export async function POST(req: Request) {
     });
   }
 
+  const bad = badBody(req, 32_000);
+  if (bad) return new Response(bad, { status: bad === "Expected JSON" ? 415 : 413 });
+
   let body: { messages?: { role: string; content: string }[]; question?: string };
   try {
     body = await req.json();
@@ -50,9 +53,13 @@ export async function POST(req: Request) {
   }
 
   // Accept the new {messages} shape and the legacy {question} shape.
-  const raw = body.messages ?? (body.question ? [{ role: "user", content: body.question }] : []);
+  const raw = Array.isArray(body.messages)
+    ? body.messages
+    : typeof body.question === "string"
+      ? [{ role: "user", content: body.question }]
+      : [];
   const history: ChatMessage[] = raw
-    .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
     .slice(-MAX_TURNS)
     .map((m) => ({ role: m.role as "user" | "assistant", content: m.content.slice(0, 2000) }));
 

@@ -26,34 +26,10 @@ export type Project = {
   archived?: boolean;
 };
 
-export const categoryMeta: Record<
-  ProjectCategory,
-  { label: string; short: string; accent: string; soft: string; ring: string; text: string }
-> = {
-  robotics: {
-    label: "Hardware & Robotics",
-    short: "robotics",
-    accent: "bg-zinc-800",
-    soft: "bg-zinc-100",
-    ring: "border-zinc-700",
-    text: "text-zinc-700",
-  },
-  webapp: {
-    label: "Web Projects",
-    short: "webapp",
-    accent: "bg-blue-600",
-    soft: "bg-blue-50",
-    ring: "border-blue-500",
-    text: "text-blue-700",
-  },
-  application: {
-    label: "Downloadable Applications",
-    short: "application",
-    accent: "bg-green-600",
-    soft: "bg-green-50",
-    ring: "border-green-500",
-    text: "text-green-700",
-  },
+export const categoryMeta: Record<ProjectCategory, { label: string; short: string }> = {
+  robotics: { label: "Hardware & Robotics", short: "Robotics" },
+  webapp: { label: "Web Projects", short: "Web App" },
+  application: { label: "Downloadable Applications", short: "Application" },
 };
 
 export const projects: Project[] = [

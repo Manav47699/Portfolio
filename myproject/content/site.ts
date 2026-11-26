@@ -19,10 +19,10 @@ export const site = {
     alias: "Eastern Regional Campus",
   },
   rotatingLines: [
-    "robots that win competitions.",
-    "AI that runs on your own machine.",
-    "websites for real businesses.",
-    "things that sense, think and move.",
+    "AI Enthusiast",
+    "Robotics Enthusiast",
+    "Combining AI and Robotics",
+    "Building Real-World Solutions",
   ],
   awards: [
     {

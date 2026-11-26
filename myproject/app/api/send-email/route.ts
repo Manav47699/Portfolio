@@ -1,4 +1,4 @@
-import { rateLimit, clientIp } from "@/lib/rate-limit";
+import { rateLimit, clientIp, badBody } from "@/lib/rate-limit";
 import { site } from "@/content/site";
 
 export const runtime = "nodejs";
@@ -10,6 +10,9 @@ export async function POST(req: Request) {
   const rl = rateLimit(`mail:${clientIp(req)}`, 4, 60 * 60_000);
   if (!rl.ok) return Response.json({ error: "Too many messages. Please try again later." }, { status: 429 });
 
+  const bad = badBody(req, 16_000);
+  if (bad) return Response.json({ error: bad }, { status: bad === "Expected JSON" ? 415 : 413 });
+
   let data: { feedback?: string; email?: string; name?: string; website?: string };
   try {
     data = await req.json();
@@ -20,9 +23,10 @@ export async function POST(req: Request) {
   // Honeypot: real users never fill the hidden "website" field.
   if (data.website) return Response.json({ ok: true });
 
-  const feedback = (data.feedback ?? "").trim().slice(0, 5000);
-  const email = (data.email ?? "").trim().slice(0, 200);
-  const name = (data.name ?? "").trim().slice(0, 100);
+  const str = (v: unknown, n: number) => (typeof v === "string" ? v.trim().slice(0, n) : "");
+  const feedback = str(data.feedback, 5000);
+  const email = str(data.email, 200);
+  const name = str(data.name, 100).replace(/[\r\n]+/g, " ");
   if (feedback.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json({ error: "Please include a message and a valid email." }, { status: 400 });
   }

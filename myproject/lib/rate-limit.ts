@@ -26,3 +26,11 @@ export function clientIp(req: Request) {
     "anon"
   );
 }
+
+/** Reject oversized or non-JSON bodies before parsing them. */
+export function badBody(req: Request, maxBytes: number) {
+  if (!(req.headers.get("content-type") ?? "").includes("application/json")) return "Expected JSON";
+  const len = Number(req.headers.get("content-length") ?? 0);
+  if (len > maxBytes) return "Request too large";
+  return null;
+}

@@ -8,16 +8,13 @@ import { usePidSim } from "./usePidSim";
 
 const LabScene = dynamic(() => import("./LabScene"), {
   ssr: false,
-  loading: () => <SceneFallback label="Booting the robot…" />,
+  loading: () => <SceneFallback label="Loading simulation…" />,
 });
 
 function SceneFallback({ label }: { label: string }) {
   return (
     <div className="absolute inset-0 grid place-items-center bg-[#060608]">
-      <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-amber-200/70">
-        <span className="size-2 animate-ping rounded-full bg-amber-300" />
-        {label}
-      </div>
+      <div className="font-mono text-xs text-zinc-500">{label}</div>
     </div>
   );
 }
@@ -32,7 +29,7 @@ class SceneBoundary extends Component<{ children: React.ReactNode }, { failed: b
     if (!this.state.failed) return this.props.children;
     return (
       <div className="absolute inset-0">
-        <video src="/media/pid-line-follower.mp4" poster="/media/pid-line-follower.jpg" autoPlay muted loop playsInline className="h-full w-full object-cover opacity-80" />
+        <video src="/media/pid-line-follower.mp4" poster="/media/pid-line-follower.webp" autoPlay muted loop playsInline className="h-full w-full object-cover opacity-80" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-5 pt-16 text-sm text-zinc-300">
           Your browser couldn&apos;t start 3D rendering, so here&apos;s the real robot instead. Try enabling hardware acceleration to play with the simulation.
         </div>
@@ -195,7 +192,7 @@ export default function PIDLab({ variant = "full" }: { variant?: "full" | "compa
           <span
             ref={bind("status")}
             data-state="ok"
-            className="rounded-full border border-white/10 bg-black/60 px-3 py-1 font-mono text-[10px] tracking-[0.18em] text-emerald-300 backdrop-blur data-[state=lost]:text-amber-300 data-[state=off]:text-red-400"
+            className="rounded-full border border-white/10 bg-black/60 px-3 py-1 font-mono text-[10px] tracking-[0.18em] text-zinc-200 backdrop-blur data-[state=lost]:text-amber-300 data-[state=off]:text-red-400"
           >
             TRACKING
           </span>

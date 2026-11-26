@@ -7,12 +7,12 @@ import Chatbot from "@/components/Chatbot";
 import { site } from "@/content/site";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], preload: false });
 const display = Bricolage_Grotesque({ variable: "--font-display", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name}: ${site.role}`, template: `%s · ${site.name}` },
+  title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,
   keywords: ["Manav Acharya", "computer engineer", "Nepal", "Dharan", "robotics", "AI", "Next.js", "Django", "FastAPI", "portfolio"],
   authors: [{ name: site.name, url: site.url }],
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: "website",
     url: site.url,
     siteName: site.name,
-    title: `${site.name}: ${site.role}`,
+    title: site.name,
     description: site.tagline,
     locale: "en_US",
   },
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050506",
+  themeColor: "#0a0a0b",
   colorScheme: "dark",
 };
 

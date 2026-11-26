@@ -34,7 +34,7 @@ export default function ProjectRow({ children, label }: { children: React.ReactN
         {children}
       </div>
       {scrollable && (
-        <div className="absolute -top-16 right-0 hidden gap-2 md:flex">
+        <div className="absolute -top-[4.75rem] right-0 hidden gap-2 md:flex">
           {[
             [-1, ChevronLeft, edge.start, "Scroll left"],
             [1, ChevronRight, edge.end, "Scroll right"],
@@ -46,7 +46,7 @@ export default function ProjectRow({ children, label }: { children: React.ReactN
                 onClick={() => by(d as number)}
                 disabled={disabled as boolean}
                 aria-label={l as string}
-                className="grid size-10 place-items-center rounded-full border border-black/15 bg-white text-zinc-800 shadow-sm transition hover:border-black hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-30"
+                className="grid size-10 place-items-center rounded-full border border-white/15 text-zinc-200 transition hover:border-white/50 hover:bg-white/5 disabled:pointer-events-none disabled:opacity-30"
               >
                 <I className="size-5" />
               </button>

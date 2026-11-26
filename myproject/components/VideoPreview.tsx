@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Poster-first video: shows the poster frame instantly, loads the clip lazily,
@@ -22,7 +22,6 @@ export default function VideoPreview({
   label: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -44,15 +43,14 @@ export default function VideoPreview({
   return (
     <video
       ref={ref}
-      poster={poster}
+      poster={poster.replace(/\.jpg$/, ".webp")}
       muted
       loop
       playsInline
       controls={controls}
       preload="none"
       aria-label={label}
-      onPlaying={() => setReady(true)}
-      className={`h-full w-full bg-zinc-900 transition-opacity duration-500 ${contain ? "object-contain" : "object-cover"} ${ready ? "opacity-100" : "opacity-95"} ${className}`}
+      className={`h-full w-full bg-zinc-900 ${contain ? "object-contain" : "object-cover"} ${className}`}
     />
   );
 }

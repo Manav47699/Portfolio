@@ -1,6 +1,7 @@
 venv
 node_modules
 PORTFOLIO_IMPROVEMENTS.md
+documentation.md
 
 # old Python backend (kept only on the "original" branch); local secrets live here
 backend/

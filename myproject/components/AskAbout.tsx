@@ -6,12 +6,12 @@ import { openLucky } from "@/lib/lucky-events";
 export default function AskAbout({ title }: { title: string }) {
   const qs = [`How does ${title} work?`, `What tech does ${title} use?`];
   return (
-    <div className="rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-6">
+    <div className="rounded-2xl border border-rule bg-white p-6">
       <div className="flex items-center gap-3">
-        <Image src="/images/mascot.jpeg" alt="" width={40} height={40} className="size-10 rounded-xl object-cover" />
+        <Image src="/images/mascot.jpeg" alt="" width={36} height={36} className="size-9 rounded-full object-cover" />
         <div>
           <div className="font-display font-semibold text-zinc-900">Curious about this one?</div>
-          <div className="text-sm text-zinc-500">Lucky knows the details.</div>
+          <div className="text-sm text-zinc-500">Ask Lucky for the details.</div>
         </div>
       </div>
       <div className="mt-4 space-y-2">
@@ -19,7 +19,7 @@ export default function AskAbout({ title }: { title: string }) {
           <button
             key={q}
             onClick={() => openLucky(q)}
-            className="w-full rounded-xl border border-indigo-200 bg-white px-3.5 py-2.5 text-left text-sm text-indigo-700 transition hover:border-indigo-400 hover:bg-indigo-50"
+            className="w-full rounded-lg border border-rule px-3.5 py-2.5 text-left text-sm text-zinc-700 transition-colors hover:border-zinc-500 hover:text-zinc-900"
           >
             {q}
           </button>
